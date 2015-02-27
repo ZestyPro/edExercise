@@ -1,0 +1,77 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string letterToIntChar( char letter );
+
+int main(int argc, char *argv[])
+{
+    std::string input = "1"; // declares input string
+    std::string newInput = ""; // string for final
+
+
+    {
+        // get input from user
+        cout << "Input phone number: ";
+        cin >> input;
+
+        if(input.at(0) != '1')
+        {
+            cout << "Exiting executable." << endl;
+            return 0;
+        }
+
+        newInput = input; // starts out new input
+
+        //loops through input string
+        for( int x = 0; x<input.length(); x++)
+        {
+            // checks when it reaches letters
+            if( input.at(x) >= 'A' && input.at(x)<='Z')
+            {
+                newInput.replace( x,1,letterToIntChar(input.at(x)) );
+            }
+        }
+
+        cout << "The real phone number is ";
+        cout << newInput << endl;
+    }
+
+    return 0;
+}
+
+//function to get corresponding numbers
+string letterToIntChar( char letter )
+{
+    string number = ""; // declares number char to return
+    
+    //checks what letter is and obtains value for number
+    if(letter >= 'A' && letter <= 'C')
+    {
+        number = "2";
+    } else if(letter >= 'D' && letter <= 'F')
+    {
+        number = "3";
+    } else if(letter >= 'G' && letter <= 'I')
+    {
+        number = "4";
+    } else if(letter >= 'J' && letter <= 'L')
+    {
+        number = "5";
+    } else if(letter >= 'M' && letter <= 'O')
+    {
+        number = "6";
+    } else if(letter >= 'P' && letter <= 'S')
+    {
+        number = "7";
+    } else if(letter >= 'T' && letter <= 'V')
+    {
+        number = "8";
+    } else if(letter >= 'W' && letter <= 'Z')
+    {
+        number = "9";
+    }
+
+    return number; // returns number
+}
