@@ -1,0 +1,68 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+
+using namespace std;
+
+const string fileName = "grades.dat";
+
+
+
+int main(int argc, char *argv[])
+{
+    ifstream inStream;
+    inStream.open(fileName);
+
+    int next; // temp variable for comparisons
+    int idNum = 0; // temp variable for id number
+    int sum = 0; // temp variable for the sum
+    int testNums = 0; // temp variable for the number of tests
+    int low = 100; // temp variable for the lowest score
+    float averagef = 0; // temp variable for the average
+    int average = 0;
+
+    while(inStream >> next)
+    {
+        sum = 0;
+        testNums = 0;
+        average = 0;
+        idNum = 0;
+        low = 100; // reset low variable.
+        if(next>=1000)
+        {
+            idNum = next;
+            while(inStream >> next)
+            {
+                if(next<0)
+                {
+                    break;
+                } else {
+                if(next<50)
+                {
+                    next = 50;
+                }
+
+                if(next<low)
+                {
+                    low = next;
+                }
+
+                sum += next;
+                testNums++;
+                }
+            }
+            sum -= low;
+            testNums -= 1;
+            averagef = (float)(sum/testNums);
+            average = averagef;
+        }
+
+        cout << idNum << " ";
+        cout << average << endl;
+    }
+
+
+    return 0;
+}
+
