@@ -1,0 +1,71 @@
+ /* For educational purposes only
+ * Code Written by Matthew Oakes *
+ */
+
+#include <iostream>
+#include <cstdlib>
+#include <sstream>
+
+using namespace std;
+
+// for function to calculate if year is a leap year
+bool isLeap(int year);
+
+int main(int argc, char* argv[])
+{
+    //declare variables
+    //used to convert the input to int
+    std::stringstream converter;
+    string input = ""; // string variable for input
+    int year = 0; // variable for the year
+
+
+    //initial greeting
+    cout << "Enter your years: ";
+
+    //loops 10 times once for each year
+    for( int x = 0; x<10; x++)
+    {
+        //gather input from user
+        std::cin >> input;
+
+        //convert input to int
+        converter << input;
+        converter >> year;
+
+
+        // if it is a leap year
+        if(isLeap(year))
+        {
+            //print that it is a leap year
+            cout << endl << year << " is a leap year" << endl;
+        } else {
+            //print that is is NOT a leap year
+            cout << endl << year << " is not a leap year" << endl;
+        }
+
+        year = 0; // reset year variable
+        converter.clear(); // reset converter
+        input = ""; //reset input
+    }
+
+
+    return 0;
+}
+
+//calculates if the inputed year is a leap
+bool isLeap(int year)
+{
+    bool isALeap = false; // variable to return
+
+    //if year is divisible by 4 and not by 100
+    // or is divisible by 400
+    // than it is a leap year
+    if((year%4==0 && year%100!=0)
+        || (year%400==0))
+    {
+        isALeap = true;
+    }
+
+    return isALeap; //return if leap year or not
+}
