@@ -1,0 +1,216 @@
+#include <iostream>
+#include <fstream>
+#include <conio.h>
+#include <cstdlib>
+#include <sstream>
+#include <iostream>
+
+using namespace std;
+
+
+//declare all needed global variables
+ // global variable for name of file
+const string fileName = "gameinventory.txt";
+//global boolean variable for quiting
+bool quit = false;
+
+//all needed functions
+void display_inventory(); //prints full inventory from file
+void add_item(); // prompts user and writes item to inv.
+void print_mainMenu(); // prints welcome text to console
+
+//main function
+int main(int argc, char* argv[])
+{
+    string input = ""; //string variable for user input
+
+    //initialize main loop
+    //only exit when quit variable is true
+    while(!quit)
+    {
+        print_mainMenu(); //print intro greeting
+
+        //prompt and obtain input from user
+        cout << "Choice (enter upper or lowercase";
+        cout << " letter option):";
+        cin >> input;
+
+        system("cls");
+
+        //test the gather input
+        if(input == "a" || input == "A")
+        {
+            // run the function to prompt user
+            // to add item and write to file
+            add_item();
+        }
+
+
+        else if( input == "q" || input == "Q" )
+        {
+            //notify user they choose to quit and quit
+            quit = true; // change quit boolean to true
+
+            system("cls"); //clear screen first
+
+            cout << endl << endl;
+            cout << "Thank you for your time!";
+            cout << endl;
+
+            //wait for key input to exit program
+            // this ensures readability
+            cout << "Press any key to exit the program";
+            _getch();
+        }
+
+
+         else if ( input == "d" or input == "D")
+        {
+            // run the function to display the
+            // full inventory to the console
+            display_inventory();
+        }
+
+         else {
+                //notify user that the input was invalid
+                //than clear the screen and restart the loop
+                cout << endl;
+                cout << "The input you entered was incorrect";
+                cout << endl;
+                cout << "Press any button to return to main menu.";
+                _getch();
+        }
+        
+        system("cls");
+    }
+    
+    
+    return 0;
+}
+
+
+// this function
+void display_inventory()
+{
+    //open file for reading
+    ifstream fileIStream; // file stream for reading data
+    fileIStream.open(fileName);
+    stringstream ss; // stringstream for conversion
+    string temp; //temporary variable for printing
+
+    //makes sure file is open
+    if (!fileIStream.fail())
+    {
+        //print header
+        cout << "Item" << '\t';
+        cout << "Cost" << '\t';
+        cout << "Item" << endl;
+
+        //makes sure it has not reached end of the file
+        while(!fileIStream.eof())
+        {
+            //print the three needed peices of data
+            // per line
+            fileIStream >> temp;
+            cout << temp;
+            cout << '\t';
+
+            fileIStream >> temp;
+            cout << temp;
+            cout << '\t';
+
+            fileIStream >> temp;
+            cout << temp;
+            cout << endl;
+        }
+    } else {
+        // if there is a problem with the file notify user
+        system("cls");
+        cout << "There was an issue with the file." << endl;
+        cout << "Please varify the file exists and try again";
+        cout <<  endl;
+    }
+
+     //waits for user input and clears screen
+    cout << "Press a key to return to main menu.";
+    _getch();
+    system("cls");
+
+    fileIStream.close();
+}
+
+//this function prompts and adds an item to the file
+void add_item()
+{
+    //open file for writing
+    ofstream fileOStream; // file stream for adding data
+    fileOStream.open(fileName, ios::app); // use global name for file
+
+    string itemName = ""; //name of item to be added
+    int cost = 0; //statistical cost of item to be added
+    int quantity = 0; // quantity of items
+
+    //prompt user for input
+    cout << "Enter the name for this new item: ";
+    cin >> itemName;
+
+    //prompt user for input
+    cout << "Enter unit cost for this item: ";
+    cin >> cost;
+
+    //prompt user for input
+    cout << "Enter quantity in stock for this item: ";
+    cin >> quantity;
+
+    //makes sure file is open
+    if (!fileOStream.fail())
+    {
+        //writes all needed information
+        //as well as spacing
+        // to the open file
+        fileOStream << itemName;
+        fileOStream << '\t';
+        fileOStream << cost;
+        fileOStream << '\t';
+        fileOStream << quantity;
+        fileOStream << '\n';
+
+        //notify user that the object was added correctly
+        cout << "Item added to the inventory" << endl;
+    } else {
+        // if there is a problem with the file notify user
+        cout << "There was an issue with the file." << endl;
+        cout << "Please varify the file exists and try again";
+        cout <<  endl;
+    }
+
+    //waits for user input and clears screen
+    cout << "Press a key to return to main menu.";
+    _getch();
+    system("cls");
+
+    fileOStream.close();
+}
+
+
+// prints meesages for the main menu
+void print_mainMenu()
+{
+    //print intro banner to console
+    cout << "***********************";
+    cout << "***********************";
+    cout << endl;
+    cout << "Game Item Inventory";
+    cout << endl;
+    cout << "***********************";
+    cout << "***********************";
+    cout << endl;
+
+    //print input options
+    cout << "[d] Display all the inventory from file.";
+    cout << endl; //first option
+    cout << "[a] Append an item to the inventory file.";
+    cout << endl; //second option
+    cout << "[q] Quit and commit changes to file.";
+    cout << endl; //third option
+}
